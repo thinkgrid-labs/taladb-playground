@@ -1,5 +1,6 @@
 import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
 import { copyFileSync, mkdirSync, realpathSync } from 'fs'
 import { resolve } from 'path'
 
@@ -34,6 +35,7 @@ const stubNonWebPlatforms: Plugin = {
 
 export default defineConfig({
   plugins: [
+    tailwindcss(),
     react(),
     stubNonWebPlatforms,
     copyWasmPlugin,
