@@ -1,5 +1,20 @@
 import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
+import { copyFileSync, mkdirSync, realpathSync } from 'fs'
+import { resolve } from 'path'
+
+const taladbWebPkg = realpathSync(resolve(__dirname, 'node_modules/@taladb/web/pkg'))
+
+// Copies taladb_web.js + taladb_web_bg.wasm into dist/pkg/ after each build
+// so the dedicated worker's `import('../pkg/taladb_web.js')` resolves correctly.
+const copyWasmPlugin: Plugin = {
+  name: 'copy-taladb-wasm',
+  closeBundle() {
+    mkdirSync('dist/pkg', { recursive: true })
+    copyFileSync(resolve(taladbWebPkg, 'taladb_web.js'), 'dist/pkg/taladb_web.js')
+    copyFileSync(resolve(taladbWebPkg, 'taladb_web_bg.wasm'), 'dist/pkg/taladb_web_bg.wasm')
+  },
+}
 
 // @taladb/node and @taladb/react-native are never reached in a browser
 // (detectPlatform() returns 'browser'). Stub them so Vite's import
@@ -18,7 +33,14 @@ const stubNonWebPlatforms: Plugin = {
 }
 
 export default defineConfig({
-  plugins: [react(), stubNonWebPlatforms],
+  plugins: [
+    react(),
+    stubNonWebPlatforms,
+    copyWasmPlugin,
+  ],
+  build: {
+    chunkSizeWarningLimit: 2000,
+  },
   optimizeDeps: {
     exclude: ['taladb', '@taladb/web', '@huggingface/transformers'],
   },
