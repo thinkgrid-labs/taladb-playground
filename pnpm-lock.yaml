@@ -12,8 +12,8 @@ importers:
         specifier: ^3.8.1
         version: 3.8.1
       '@taladb/web':
-        specifier: ^0.3.0
-        version: 0.3.0
+        specifier: ^0.4.0
+        version: 0.4.0
       '@types/react':
         specifier: ^18.3.1
         version: 18.3.28
@@ -30,8 +30,8 @@ importers:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
       taladb:
-        specifier: ^0.3.0
-        version: 0.3.0
+        specifier: ^0.4.0
+        version: 0.4.0
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -702,8 +702,8 @@ packages:
     peerDependencies:
       vite: ^5.2.0 || ^6 || ^7 || ^8
 
-  '@taladb/web@0.3.0':
-    resolution: {integrity: sha512-idJyo+iCqWae2GMUFi8nWIeTlv1Cd52Z2S6Gm5z3ME51RQ/ILQ+mZcJE2wBFfFY6NRxtbhcYh+RVB8cDGPOnNw==}
+  '@taladb/web@0.4.0':
+    resolution: {integrity: sha512-GUlkM2JMW3RDed+pbjrsRnwOc1Z3jW8UAWNf7kMacvEZ8oqJCD5aHTegyJMadp3z/PJD69iWOtuNPnVbwCaQEg==}
     engines: {node: '>=18'}
 
   '@types/babel__core@7.20.5':
@@ -1081,8 +1081,8 @@ packages:
   tailwindcss@4.2.2:
     resolution: {integrity: sha512-KWBIxs1Xb6NoLdMVqhbhgwZf2PGBpPEiwOqgI4pFIYbNTfBXiKYyWoTsXgBQ9WFg/OlhnvHaY+AEpW7wSmFo2Q==}
 
-  taladb@0.3.0:
-    resolution: {integrity: sha512-Nl0a4JAJGCNgkq+RNlUNRRo3rc6KuPDoax7NBiO3AunmSHU7NPDZmciFAxLfZhuKabghXMjqBDA/3aiO9H/kZg==}
+  taladb@0.4.0:
+    resolution: {integrity: sha512-W0q2tCVhkckQRP577VJDZmOD/vKqBmUtevWyJw8O/h/OqW/MCiteQUF6jObtEQgEc2/ZmGfF+iEXvpriN26HAw==}
     engines: {node: '>=18'}
 
   tapable@2.3.2:
@@ -1658,7 +1658,7 @@ snapshots:
       tailwindcss: 4.2.2
       vite: 6.4.1(@types/node@25.5.2)(jiti@2.6.1)(lightningcss@1.32.0)
 
-  '@taladb/web@0.3.0': {}
+  '@taladb/web@0.4.0': {}
 
   '@types/babel__core@7.20.5':
     dependencies:
@@ -2071,7 +2071,7 @@ snapshots:
 
   tailwindcss@4.2.2: {}
 
-  taladb@0.3.0: {}
+  taladb@0.4.0: {}
 
   tapable@2.3.2: {}
 
