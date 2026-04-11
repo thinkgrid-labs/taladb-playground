@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react'
 import { initDB } from './db'
 import NotesTab from './components/NotesTab'
 import SearchTab from './components/SearchTab'
+import FtsHnswTab from './components/FtsHnswTab'
 
-type Tab = 'notes' | 'search'
+type Tab = 'notes' | 'search' | 'fts-hnsw'
 
 function useDarkMode() {
   const [dark, setDark] = useState(() => {
@@ -76,6 +77,7 @@ export default function App() {
               {([
                 { id: 'notes', label: 'Notes', sub: 'Document DB', icon: '📝' },
                 { id: 'search', label: 'Semantic Search', sub: 'Vector DB', icon: '🔍' },
+                { id: 'fts-hnsw', label: 'FTS & HNSW', sub: 'New in 0.4', icon: '⚡' },
               ] as const).map((tab) => (
                 <button
                   key={tab.id}
@@ -138,6 +140,7 @@ export default function App() {
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-8">
         {activeTab === 'notes' && <NotesTab />}
         {activeTab === 'search' && <SearchTab />}
+        {activeTab === 'fts-hnsw' && <FtsHnswTab />}
       </main>
 
       {/* Footer */}

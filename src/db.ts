@@ -36,7 +36,7 @@ export async function initDB() {
   const notes = _db.collection('notes')
   await notes.createIndex('category')
   await notes.createIndex('createdAt')
-  await notes.createIndex('_fts:body')
+  await notes.createFtsIndex('body')    // inverted FTS index — powers fast $contains queries
 
   const articles = _db.collection('articles')
   await articles.createIndex('category')
