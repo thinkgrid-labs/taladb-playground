@@ -10,13 +10,14 @@
   },
   "dependencies": {
     "@huggingface/transformers": "^3.8.1",
-    "@taladb/web": "^0.4.0",
+    "@taladb/react": "^0.6.0",
+    "@taladb/web": "^0.6.0",
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "taladb": "^0.4.0",
+    "taladb": "^0.6.0",
     "typescript": "^5.9.3",
     "vite": "^6.3.5"
   },

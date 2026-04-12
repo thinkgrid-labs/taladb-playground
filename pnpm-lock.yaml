@@ -11,9 +11,12 @@ importers:
       '@huggingface/transformers':
         specifier: ^3.8.1
         version: 3.8.1
+      '@taladb/react':
+        specifier: ^0.6.0
+        version: 0.6.0(react@18.3.1)(taladb@0.6.0)
       '@taladb/web':
-        specifier: ^0.4.0
-        version: 0.4.0
+        specifier: ^0.6.0
+        version: 0.6.0
       '@types/react':
         specifier: ^18.3.1
         version: 18.3.28
@@ -30,8 +33,8 @@ importers:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
       taladb:
-        specifier: ^0.4.0
-        version: 0.4.0
+        specifier: ^0.6.0
+        version: 0.6.0
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -702,8 +705,15 @@ packages:
     peerDependencies:
       vite: ^5.2.0 || ^6 || ^7 || ^8
 
-  '@taladb/web@0.4.0':
-    resolution: {integrity: sha512-GUlkM2JMW3RDed+pbjrsRnwOc1Z3jW8UAWNf7kMacvEZ8oqJCD5aHTegyJMadp3z/PJD69iWOtuNPnVbwCaQEg==}
+  '@taladb/react@0.6.0':
+    resolution: {integrity: sha512-GsbCUvBX0QfJBySSPJKuFbGotIHIREgdUAb4Huu/xzCzqzvN6kmvivIQsOaf4YBfX+6br5SSaxf/Z6uye4CkOg==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      react: '>=18.0.0'
+      taladb: 0.6.0
+
+  '@taladb/web@0.6.0':
+    resolution: {integrity: sha512-EQt4VpIyqV/m0AS10XxGobjePk6AGMGMQFrL6qzTlJCDiIeT6YBJobEpQ7wX8aEOVdBswpbCGAOoZLn9TwNyZQ==}
     engines: {node: '>=18'}
 
   '@types/babel__core@7.20.5':
@@ -740,6 +750,9 @@ packages:
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
       vite: ^4.2.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
+
+  argparse@2.0.1:
+    resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
 
   baseline-browser-mapping@2.10.14:
     resolution: {integrity: sha512-fOVLPAsFTsQfuCkvahZkzq6nf8KvGWanlYoTh0SVA0A/PIUxQGU2AOZAoD95n2gFLVDW/jP6sbGLny95nmEuHA==}
@@ -871,6 +884,10 @@ packages:
 
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
+
+  js-yaml@4.1.1:
+    resolution: {integrity: sha512-qQKT4zQxXl8lLwBtHMWwaTcGfFOZviOJet3Oy/xmGk2gZH677CJM9EvtfdSkgWcATZhj/55JZ0rmy3myCT5lsA==}
+    hasBin: true
 
   jsesc@3.1.0:
     resolution: {integrity: sha512-/sM3dO2FOzXjKQhJuo0Q173wf2KOo8t4I8vHy6lF9poUp7bKT0/NHE8fPX23PwfhnykfqnC2xRxOnVw5XuGIaA==}
@@ -1081,8 +1098,8 @@ packages:
   tailwindcss@4.2.2:
     resolution: {integrity: sha512-KWBIxs1Xb6NoLdMVqhbhgwZf2PGBpPEiwOqgI4pFIYbNTfBXiKYyWoTsXgBQ9WFg/OlhnvHaY+AEpW7wSmFo2Q==}
 
-  taladb@0.4.0:
-    resolution: {integrity: sha512-W0q2tCVhkckQRP577VJDZmOD/vKqBmUtevWyJw8O/h/OqW/MCiteQUF6jObtEQgEc2/ZmGfF+iEXvpriN26HAw==}
+  taladb@0.6.0:
+    resolution: {integrity: sha512-uKLKGZPb3NqrrruN1zkaWvCqEZeHRMI4agNqPpLHcHkgi75/HSqKEq3naBa7hQBN3fZejkBbuvOTXJQynVLQPQ==}
     engines: {node: '>=18'}
 
   tapable@2.3.2:
@@ -1658,7 +1675,12 @@ snapshots:
       tailwindcss: 4.2.2
       vite: 6.4.1(@types/node@25.5.2)(jiti@2.6.1)(lightningcss@1.32.0)
 
-  '@taladb/web@0.4.0': {}
+  '@taladb/react@0.6.0(react@18.3.1)(taladb@0.6.0)':
+    dependencies:
+      react: 18.3.1
+      taladb: 0.6.0
+
+  '@taladb/web@0.6.0': {}
 
   '@types/babel__core@7.20.5':
     dependencies:
@@ -1709,6 +1731,8 @@ snapshots:
       vite: 6.4.1(@types/node@25.5.2)(jiti@2.6.1)(lightningcss@1.32.0)
     transitivePeerDependencies:
       - supports-color
+
+  argparse@2.0.1: {}
 
   baseline-browser-mapping@2.10.14: {}
 
@@ -1834,6 +1858,10 @@ snapshots:
   jiti@2.6.1: {}
 
   js-tokens@4.0.0: {}
+
+  js-yaml@4.1.1:
+    dependencies:
+      argparse: 2.0.1
 
   jsesc@3.1.0: {}
 
@@ -2071,7 +2099,9 @@ snapshots:
 
   tailwindcss@4.2.2: {}
 
-  taladb@0.4.0: {}
+  taladb@0.6.0:
+    dependencies:
+      js-yaml: 4.1.1
 
   tapable@2.3.2: {}
 

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { db } from '../db'
+import { useCollection, useFind } from '@taladb/react'
 import type { Note } from '../db'
 
 const CATEGORIES = ['Personal', 'Work', 'Research', 'Ideas']
@@ -16,8 +16,6 @@ function tagList(raw: string): string[] {
 }
 
 export default function NotesTab() {
-  const [notes, setNotes] = useState<Note[]>([])
-  const [total, setTotal] = useState(0)
   const [query, setQuery] = useState('')
   const [filterCategory, setFilterCategory] = useState('')
   const [showForm, setShowForm] = useState(false)
@@ -28,36 +26,42 @@ export default function NotesTab() {
   const categoryRef = useRef<HTMLSelectElement>(null)
   const tagsRef     = useRef<HTMLInputElement>(null)
 
-  const col = db().collection<Note>('notes')
+  // Memoised collection handle from the nearest <TalaDBProvider>.
+  const col = useCollection<Note>('notes')
 
-  async function loadNotes() {
-    let results: Note[]
-    if (query && filterCategory) {
-      const byBody  = await col.find({ body:  { $contains: query }, category: filterCategory })
-      const byTitle = await col.find({ title: { $contains: query }, category: filterCategory })
-      const seen = new Set(byBody.map((n) => n._id))
-      results = [...byBody, ...byTitle.filter((n) => !seen.has(n._id))]
-    } else if (query) {
-      const byBody  = await col.find({ body:  { $contains: query } })
-      const byTitle = await col.find({ title: { $contains: query } })
-      const seen = new Set(byBody.map((n) => n._id))
-      results = [...byBody, ...byTitle.filter((n) => !seen.has(n._id))]
-    } else if (filterCategory) {
-      results = await col.find({ category: filterCategory })
-    } else {
-      results = await col.find()
-    }
-    results.sort((a, b) => (b.createdAt as number) - (a.createdAt as number))
-    setNotes(results)
-    setTotal(await col.count())
-  }
+  // Live subscription — re-renders automatically whenever notes change.
+  // Scoped to the selected category when one is active.
+  const { data: liveNotes } = useFind(
+    col,
+    filterCategory ? { category: filterCategory } : undefined,
+  )
 
-  useEffect(() => { loadNotes() }, [query, filterCategory])
+  // Total count (unfiltered) — a separate useFind with no filter.
+  const { data: allNotes } = useFind(col)
 
+  // FTS text search — run a manual find against the FTS index when query changes
+  // or when live data changes (picks up newly inserted matching notes in real time).
+  const [notes, setNotes] = useState<Note[]>([])
   useEffect(() => {
-    const unsub = col.subscribe({}, () => { loadNotes() })
-    return unsub
-  }, [])
+    if (!query) {
+      const sorted = [...liveNotes].sort((a, b) => b.createdAt - a.createdAt)
+      setNotes(sorted)
+      return
+    }
+    let cancelled = false
+    async function runSearch() {
+      const filter = filterCategory ? { category: filterCategory } : {}
+      const byBody  = await col.find({ body:  { $contains: query }, ...filter })
+      const byTitle = await col.find({ title: { $contains: query }, ...filter })
+      if (cancelled) return
+      const seen = new Set(byBody.map((n) => n._id))
+      const merged = [...byBody, ...byTitle.filter((n) => !seen.has(n._id))]
+      merged.sort((a, b) => b.createdAt - a.createdAt)
+      setNotes(merged)
+    }
+    runSearch()
+    return () => { cancelled = true }
+  }, [query, filterCategory, liveNotes])
 
   async function handleSave(e: React.FormEvent) {
     e.preventDefault()
@@ -89,7 +93,7 @@ export default function NotesTab() {
       {/* Toolbar */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 shadow-sm">
-          <span className="text-2xl font-bold text-teal-500 dark:text-teal-400 tabular-nums">{total}</span>
+          <span className="text-2xl font-bold text-teal-500 dark:text-teal-400 tabular-nums">{allNotes.length}</span>
           <span className="text-sm text-slate-400 dark:text-slate-500">notes stored</span>
         </div>
 
@@ -167,7 +171,7 @@ export default function NotesTab() {
 
       {/* Feature strip */}
       <div className="flex flex-wrap gap-2 pt-2 border-t border-slate-200 dark:border-slate-800">
-        {["createIndex('category')", "createIndex('_fts:body')", '$contains filter', 'subscribe() live updates', 'OPFS persistence'].map((f) => (
+        {["useCollection()", "useFind(col, filter)", "createIndex('category')", "createIndex('_fts:body')", '$contains filter', 'OPFS persistence'].map((f) => (
           <span key={f} className="text-xs font-mono text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 px-2.5 py-1 rounded-full">
             {f}
           </span>

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
+import { TalaDBProvider } from '@taladb/react'
 import { initDB } from './db'
+import type { TalaDB } from 'taladb'
 import NotesTab from './components/NotesTab'
 import SearchTab from './components/SearchTab'
 import FtsHnswTab from './components/FtsHnswTab'
@@ -22,14 +24,14 @@ function useDarkMode() {
 }
 
 export default function App() {
-  const [ready, setReady] = useState(false)
+  const [dbInstance, setDbInstance] = useState<TalaDB | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<Tab>('notes')
   const [dark, setDark] = useDarkMode()
 
   useEffect(() => {
     initDB()
-      .then(() => setReady(true))
+      .then((db) => setDbInstance(db))
       .catch((e) => setError(String(e)))
   }, [])
 
@@ -47,7 +49,7 @@ export default function App() {
     )
   }
 
-  if (!ready) {
+  if (!dbInstance) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-slate-50 dark:bg-slate-950">
         <div className="w-8 h-8 spinner" />
@@ -57,6 +59,7 @@ export default function App() {
   }
 
   return (
+    <TalaDBProvider db={dbInstance}>
     <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
@@ -152,5 +155,6 @@ export default function App() {
         {' '}— local-first document + vector database. Data lives in your browser via OPFS. No server. No cloud.
       </footer>
     </div>
+    </TalaDBProvider>
   )
 }
