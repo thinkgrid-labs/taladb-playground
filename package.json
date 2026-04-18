@@ -1,7 +1,7 @@
 {
   "name": "taladb-example-web",
   "private": true,
-  "version": "0.6.0",
+  "version": "0.7.3",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,14 +10,14 @@
   },
   "dependencies": {
     "@huggingface/transformers": "^3.8.1",
-    "@taladb/react": "^0.6.0",
-    "@taladb/web": "^0.6.0",
+    "@taladb/react": "^0.7.3",
+    "@taladb/web": "^0.7.3",
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "taladb": "^0.6.0",
+    "taladb": "^0.7.03",
     "typescript": "^5.9.3",
     "vite": "^6.3.5"
   },
